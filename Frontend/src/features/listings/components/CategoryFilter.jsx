@@ -1,4 +1,4 @@
-import { CATEGORIES } from "../../data/listings";
+import { CATEGORIES } from "../constants";
 
 export default function CategoryFilter({ value, onChange }) {
     return (

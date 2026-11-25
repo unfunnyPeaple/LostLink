@@ -1,6 +1,6 @@
-import { CATEGORIES } from "../../data/listings";
-import { formatListingDate, initials } from "../../utils/format";
-import { ArrowRightIcon, CalendarIcon, CATEGORY_ICONS, PinIcon } from "../icons";
+import { CATEGORIES } from "../constants";
+import { formatListingDate, initials } from "../../../utils/format";
+import { ArrowRightIcon, CalendarIcon, CATEGORY_ICONS, PinIcon } from "../../../components/icons";
 
 const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.label]));
 
@@ -51,8 +51,8 @@ export default function ListingCard({ listing }) {
             </div>
 
             <footer className="card__footer">
-                <span className="avatar">{initials(listing.author)}</span>
-                <span className="card__author">{listing.author}</span>
+                <span className="avatar">{initials(listing.displayName)}</span>
+                <span className="card__author">{listing.displayName}</span>
                 <button className="icon-btn" aria-label={`Otwórz ogłoszenie: ${listing.title}`}>
                     <ArrowRightIcon size={14} />
                 </button>

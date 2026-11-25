@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "../icons";
+import { ChevronDownIcon } from "../../../components/icons";
 import ListingCard from "./ListingCard";
 
 const SORT_OPTIONS = [
@@ -6,7 +6,19 @@ const SORT_OPTIONS = [
     { id: "oldest", label: "Najstarsze" },
 ];
 
-export default function ListingsSection({ listings, total, sort, onSortChange, showAll, onToggleShowAll, onReset }) {
+export default function ListingsSection({
+    listings,
+    total,
+    allTotal,
+    loading,
+    error,
+    onRetry,
+    sort,
+    onSortChange,
+    showAll,
+    onToggleShowAll,
+    onReset,
+}) {
     return (
         <section className="listings" id="ogloszenia">
             <div className="listings__head">
@@ -33,7 +45,16 @@ export default function ListingsSection({ listings, total, sort, onSortChange, s
                 </div>
             </div>
 
-            {listings.length > 0 ? (
+            {loading ? (
+                <div className="empty" aria-live="polite">
+                    <p>Ładowanie ogłoszeń...</p>
+                </div>
+            ) : error ? (
+                <div className="empty">
+                    <p className="error" role="alert">{error}</p>
+                    <button className="btn btn--outline" onClick={onRetry}>Spróbuj ponownie</button>
+                </div>
+            ) : listings.length > 0 ? (
                 <div className="card-grid">
                     {listings.map((listing) => (
                         <ListingCard key={listing.id} listing={listing} />
@@ -41,8 +62,10 @@ export default function ListingsSection({ listings, total, sort, onSortChange, s
                 </div>
             ) : (
                 <div className="empty">
-                    <p>Nic nie pasuje do wybranych filtrów.</p>
-                    <button className="btn btn--outline" onClick={onReset}>Wyczyść filtry</button>
+                    <p>{allTotal === 0 ? "Nie ma jeszcze żadnych ogłoszeń." : "Nic nie pasuje do wybranych filtrów."}</p>
+                    {allTotal > 0 && (
+                        <button className="btn btn--outline" onClick={onReset}>Wyczyść filtry</button>
+                    )}
                 </div>
             )}
         </section>

@@ -1,5 +1,5 @@
-import { LISTING_TYPES } from "../../data/listings";
-import { SearchIcon } from "../icons";
+import { LISTING_TYPES } from "../constants";
+import { SearchIcon } from "../../../components/icons";
 
 export default function Hero({ type, onTypeChange, query, onQueryChange, onSearch }) {
     function submit(event) {
