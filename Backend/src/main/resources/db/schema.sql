@@ -20,6 +20,6 @@ CREATE TABLE IF NOT EXISTS listings (
     location    TEXT NOT NULL,
     date        TEXT NOT NULL,
     description TEXT NOT NULL,
-    author      TEXT NOT NULL,
+    author_id   TEXT NOT NULL REFERENCES users(id),
     photo       TEXT
 );

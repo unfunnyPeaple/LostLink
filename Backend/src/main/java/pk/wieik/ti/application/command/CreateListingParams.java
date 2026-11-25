@@ -4,6 +4,7 @@ import pk.wieik.ti.domain.model.listing.ListingCategory;
 import pk.wieik.ti.domain.model.listing.ListingType;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public record CreateListingParams(
         ListingType type,
@@ -12,6 +13,6 @@ public record CreateListingParams(
         String location,
         Instant date,
         String description,
-        String author,
+        UUID authorId,
         String photo
 ) {}

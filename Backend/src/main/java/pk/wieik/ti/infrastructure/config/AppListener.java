@@ -52,7 +52,7 @@ public class AppListener implements ServletContextListener {
         mount(ctx, "/api/health", new HealthServlet());
         mount(ctx, "/api/auth/*", new AuthServlet(authService));
         mount(ctx, "/api/users/*", new UsersServlet(bearerAuth, userService));
-        mount(ctx, "/api/listings/*", new ListingServlet(listingService));
+        mount(ctx, "/api/listings/*", new ListingServlet(listingService, bearerAuth));
 
         LOG.info("LostLink uruchomiony. Baza: " + config.dbPath() + ", ważność tokenu: " + config.jwtTtl().toMinutes() + " min");
     }

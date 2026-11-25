@@ -12,6 +12,6 @@ public record Listing(
         String location,
         Instant date,
         String description,
-        String author,
+        UUID authorId,
         String photo
 ) {}

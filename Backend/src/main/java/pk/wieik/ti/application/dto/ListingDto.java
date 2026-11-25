@@ -17,8 +17,8 @@ public record ListingDto(
     String location,
     Instant date,
     String description,
-    String author,
-    String photo
+    String photo,
+    String displayName
 ) {
     public static ListingDto toListingDto(Listing listing) {
         return new ListingDto(
@@ -30,8 +30,8 @@ public record ListingDto(
                 listing.location(),
                 listing.date(),
                 listing.description(),
-                listing.author(),
-                listing.photo()
+                listing.photo(),
+                null
         );
     }
 }
