@@ -20,7 +20,7 @@ export default function MainLayout() {
 
     return (
         <div className="app">
-            <Header me={me} onAddListing={() => {}} />
+            <Header me={me} />
             <main className="app__main">
                 <Outlet />
             </main>
