@@ -19,6 +19,8 @@ public class SQliteListingRepository implements ListingRepository {
     private static final String AUTHOR_NAME_COLUMN = "display_name";
     private static final String COLUMNS =
             "id, type, status, category, title, location, date, description, author_id, photo";
+    private static final String COLUMNS_SELECT_WITH_AUTHOR =
+            "listings.id, type, status, category, title, location, date, description, photo, " + AUTHOR_NAME_COLUMN;
 
 
     private final Jdbc jdbc;
@@ -73,8 +75,9 @@ public class SQliteListingRepository implements ListingRepository {
     }
 
     @Override
-    public void delete(UUID listingId) {
-        jdbc.update("DELETE FROM " + TABLE_NAME + " WHERE id = ?", listingId.toString());
+    public boolean delete(UUID listingId) {
+        int updatedRows = jdbc.update("DELETE FROM " + TABLE_NAME + " WHERE id = ?", listingId.toString());
+        return updatedRows == 1;
     }
 
     @Override
@@ -89,7 +92,7 @@ public class SQliteListingRepository implements ListingRepository {
     @Override
     public List<ListingDto> findAll() {
         return jdbc.query(
-                "SELECT " + COLUMNS + ", " + AUTHOR_NAME_COLUMN + " AS display_name FROM " + TABLE_NAME + " INNER JOIN users ON users.id = listings.author_id",
+                "SELECT " + COLUMNS_SELECT_WITH_AUTHOR + " AS display_name FROM " + TABLE_NAME + " INNER JOIN users ON users.id = listings.author_id",
                 this::mapToDtoWithAuthor
         );
     }

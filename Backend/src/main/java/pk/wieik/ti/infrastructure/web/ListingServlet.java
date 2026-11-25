@@ -79,23 +79,22 @@ public class ListingServlet extends ApiServlet {
         }
     }
 
-    private void deleteListing(HttpServletRequest req, HttpServletResponse resp) {
+    private void deleteListing(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DeleteListingRequest requestId = body(req, DeleteListingRequest.class);
 
-        listingService.deleteListing(
+        UUID listingId = listingService.deleteListing(
                 required(requestId.id(), "id"),
                 auth.requireUserId(req)
         );
 
-        noContent(resp);
+        ok(resp, listingId);
     }
 
     private void addListing(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AddListingRequest request = body(req, AddListingRequest.class);
         UUID userId = auth.requireUserId(req);
-        listingService.addListing(toCreateListingParams(request, userId));
 
-        noContent(resp);
+        ok(resp, listingService.addListing(toCreateListingParams(request, userId)));
     }
 
     private void updateListing(HttpServletRequest req, HttpServletResponse resp) throws IOException {

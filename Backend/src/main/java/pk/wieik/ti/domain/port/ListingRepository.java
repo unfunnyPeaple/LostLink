@@ -11,7 +11,7 @@ public interface ListingRepository {
     List<Listing> findAllByAuthorId(UUID authorId);
     void save(Listing listing);
     boolean update(Listing listing);
-    void delete(UUID listingId);
+    boolean delete(UUID listingId);
     Optional<Listing> findByListingId(UUID listingId);
     List<ListingDto> findAll();
 }

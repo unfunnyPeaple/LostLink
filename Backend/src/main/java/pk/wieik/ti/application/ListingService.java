@@ -23,7 +23,7 @@ public class ListingService {
         return listingRepository.findAllByAuthorId(authorId).stream().map(ListingDto::toListingDto).toList();
     }
 
-    public void addListing(CreateListingParams listingParams) {
+    public ListingDto addListing(CreateListingParams listingParams) {
         Listing listing = new Listing(
                 UUID.randomUUID(),
                 listingParams.type(),
@@ -37,6 +37,8 @@ public class ListingService {
                 listingParams.photo()
         );
         listingRepository.save(listing);
+
+        return ListingDto.toListingDto(listing);
     }
 
     public ListingDto updateListing(UUID listingId, UUID userId, UpdateListingParams params) {
@@ -61,9 +63,13 @@ public class ListingService {
         return ListingDto.toListingDto(updatedListing);
     }
 
-    public void deleteListing(UUID listingId, UUID userId) {
+    public UUID deleteListing(UUID listingId, UUID userId) {
         requireOwnership(listingId, userId);
-        listingRepository.delete(listingId);
+        if (!listingRepository.delete(listingId)) {
+            throw new NotFoundException("Nie ma listingu o podanym id");
+        }
+
+        return listingId;
     }
 
     public List<ListingDto> findAll() {
