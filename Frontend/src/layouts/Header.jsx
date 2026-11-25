@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { LogoMark, PlusIcon } from "../components/icons";
 import { initials } from "../utils/format";
 
-export default function Header({ me, onAddListing }) {
+export default function Header({ me }) {
     return (
         <header className="site-header">
             <div className="container site-header__inner">
@@ -16,6 +16,7 @@ export default function Header({ me, onAddListing }) {
                     <a href="#" className="is-disabled" title="Mapa będzie później" onClick={(e) => e.preventDefault()}>
                         Mapa
                     </a>
+                    {me && <Link to="/myListings">Moje ogłoszenia</Link>}
                 </nav>
 
                 <div className="site-header__actions">
@@ -25,10 +26,10 @@ export default function Header({ me, onAddListing }) {
                                 <span className="avatar avatar--sm">{initials(me.displayName)}</span>
                                 <span className="btn--account__name">{me.displayName}</span>
                             </Link>
-                            <button className="btn btn--primary" onClick={onAddListing}>
+                            <Link className="btn btn--primary" to="/listings/add">
                                 <PlusIcon size={16} />
                                 Dodaj ogłoszenie
-                            </button>
+                            </Link>
                         </>
                     ) : (
                         <Link className="btn btn--ghost" to="/login">
