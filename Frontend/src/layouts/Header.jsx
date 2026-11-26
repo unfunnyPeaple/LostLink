@@ -1,38 +1,40 @@
-import { LogoMark, PlusIcon } from "../icons";
-import { initials } from "../../utils/format";
+import { Link } from "react-router-dom";
+import { LogoMark, PlusIcon } from "../components/icons";
+import { initials } from "../utils/format";
 
-export default function Header({ me, onNavigate, onAddListing }) {
+export default function Header({ me }) {
     return (
         <header className="site-header">
             <div className="container site-header__inner">
-                <button className="logo" onClick={() => onNavigate("home")}>
+                <Link className="logo" to="/">
                     <LogoMark />
                     <span>LostLink</span>
-                </button>
+                </Link>
 
                 <nav className="site-nav" aria-label="Główna nawigacja">
-                    <a href="#ogloszenia" onClick={() => onNavigate("home")}>Ogłoszenia</a>
+                    <Link to="/#ogloszenia">Ogłoszenia</Link>
                     <a href="#" className="is-disabled" title="Mapa będzie później" onClick={(e) => e.preventDefault()}>
                         Mapa
                     </a>
+                    {me && <Link to="/myListings">Moje ogłoszenia</Link>}
                 </nav>
 
                 <div className="site-header__actions">
                     {me ? (
                         <>
-                            <button className="btn btn--account" onClick={() => onNavigate("account")}>
+                            <Link className="btn btn--account" to="/account">
                                 <span className="avatar avatar--sm">{initials(me.displayName)}</span>
                                 <span className="btn--account__name">{me.displayName}</span>
-                            </button>
-                            <button className="btn btn--primary" onClick={onAddListing}>
+                            </Link>
+                            <Link className="btn btn--primary" to="/listings/add">
                                 <PlusIcon size={16} />
                                 Dodaj ogłoszenie
-                            </button>
+                            </Link>
                         </>
                     ) : (
-                        <button className="btn btn--ghost" onClick={() => onNavigate("login")}>
+                        <Link className="btn btn--ghost" to="/login">
                             Zaloguj się
-                        </button>
+                        </Link>
                     )}
                 </div>
             </div>

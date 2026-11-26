@@ -6,7 +6,7 @@ export default function Profile({ me, onLogout }) {
         <p><b>Nazwa:</b> {me.displayName}</p>
         <p><b>Rola:</b> {me.role}</p>
         <p><b>Data utworzenia konta:</b> {new Date(me.createdAt).toLocaleDateString()}</p>
-        {me.role === 'ADMIN' && <p>Ma uprawnienia administratora</p>}
+        {me.role === "ADMIN" && <p>Ma uprawnienia administratora</p>}
         <button onClick={onLogout}>Wyloguj</button>
     </section>
   );

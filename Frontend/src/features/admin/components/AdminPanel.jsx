@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { api } from "../api";
+import { useEffect, useState } from "react";
+import { api } from "../../../lib/api";
 
 export default function AdminPanel({ me, onError }) {
     const [users, setUsers] = useState([]);
@@ -23,8 +23,19 @@ export default function AdminPanel({ me, onError }) {
     }
 
     useEffect(() => {
-        loadUsers();
-    }, []);
+        let cancelled = false;
+        api("GET", "/users")
+            .then((loadedUsers) => {
+                if (!cancelled) setUsers(loadedUsers);
+            })
+            .catch((error) => {
+                if (!cancelled) onError(error.message);
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [onError]);
 
     return (
     <section>

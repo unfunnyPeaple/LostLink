@@ -1,21 +1,23 @@
 import { useState } from "react";
-import { api, setToken } from "../api";
+import { api } from "../../../lib/api";
+import { useAuth } from "../../../app/providers/useAuth";
 
-export default function AuthForm({ onLoggedIn, onError }) {
+export default function AuthForm({ onLoggedIn }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [info, setInfo] = useState("");
+    const [error, setError] = useState("");
+    const { login: authenticate } = useAuth();
 
-    async function login(event) {
+    async function handleLogin(event) {
         event.preventDefault();
         try {
-            const { token } = await api("POST", "/auth/login", { email, password });
-            setToken(token);
-            onError("");
+            await authenticate(email, password);
+            setError("");
             await onLoggedIn();
-        } catch (error) {
-            onError(error.message);
+        } catch (requestError) {
+            setError(requestError.message);
         }
     }
 
@@ -23,16 +25,16 @@ export default function AuthForm({ onLoggedIn, onError }) {
         try {
             await api("POST", "/auth/register", { email, password, displayName });
             setInfo("Konto utworzone – możesz się zalogować.");
-            onError("");
-        } catch (error) {
+            setError("");
+        } catch (requestError) {
             setInfo("");
-            onError(error.message);
+            setError(requestError.message);
         }
     }
 
     return (
-        <form onSubmit={login}>
-            <h2>Logowanie / rejestracja</h2>.
+        <form onSubmit={handleLogin}>
+            <h2>Logowanie / rejestracja</h2>
 
             <input
                 placeholder="Email"
@@ -56,6 +58,7 @@ export default function AuthForm({ onLoggedIn, onError }) {
                 <button type="button" onClick={register}>Zarejestruj</button>
             </div>
             {info && <p>{info}</p>}
+            {error && <p className="error" role="alert">{error}</p>}
         </form>
     );
 
