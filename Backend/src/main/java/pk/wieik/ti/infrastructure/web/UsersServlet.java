@@ -36,8 +36,15 @@ public class UsersServlet extends ApiServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         switch (route(req)) {
-            case "/block"  -> setBlocked(req, resp);
-            case "/role"   -> changeRole(req, resp);
+            case "/block" -> setBlocked(req, resp);
+            case "/role"  -> changeRole(req, resp);
+            default       -> throw unknownEndpoint(req);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        switch (route(req)) {
             case "/delete" -> delete(req, resp);
             default        -> throw unknownEndpoint(req);
         }
@@ -85,7 +92,7 @@ public class UsersServlet extends ApiServlet {
         ok(resp, user);
     }
 
-    /** POST /api/users/delete (admin) */
+    /** DELETE /api/users/delete (admin) */
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         UUID currentUserId = auth.requireUserId(req);
         IdRequest body = body(req, IdRequest.class);

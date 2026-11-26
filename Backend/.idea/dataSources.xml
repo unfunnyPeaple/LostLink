@@ -5,7 +5,7 @@
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/data/database.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\kkosz\AppData\Local\JetBrains\IntelliJIdea2026.1\tomcat\350c15d5-8dca-4a0b-becb-efaaa45432c3\data\database.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
